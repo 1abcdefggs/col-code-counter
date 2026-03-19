@@ -1,0 +1,270 @@
+{
+  "name": "code-count-ai-context",
+  "displayName": "LOC CODE COUNTER",
+  "description": "Premium line count monitor for AI-native refactoring and context management.",
+  "version": "1.0.0",
+  "publisher": "visual-lab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1abcdefggs/col-code-counter.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeCount.refresh",
+        "title": "ReSCAN",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codeCount.toggle",
+        "title": "RUN",
+        "icon": "$(play)"
+      },
+      {
+        "command": "codeCount.ignoreItem",
+        "title": "Hide from Code Count",
+        "icon": "$(eye-closed)"
+      },
+      {
+        "command": "codeCount.manageExtensions",
+        "title": "FILTER",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "codeCount.openQuickSettings",
+        "title": "SETTINGS",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "codeCount.generateAudit",
+        "title": "AUDIT REPORT",
+        "icon": "$(file)"
+      },
+      {
+        "command": "codeCount.resetAll",
+        "title": "Reset All Progress",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "codeCount.showReport",
+        "title": "REPORT",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "code-count.openSample",
+        "title": "Code Count: Open Sample Project"
+      },
+      {
+        "command": "code-count.reload",
+        "title": "Code Count: Reload"
+      }
+    ],
+    "configuration": {
+      "title": "LOC CODE COUNTER Settings",
+      "properties": {
+        "codeCount.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the Code Count monitor."
+        },
+        "codeCount.threshold": {
+          "type": "number",
+          "default": 200,
+          "minimum": 10,
+          "maximum": 500,
+          "description": "Line threshold. AI agents may lose context or fail processing beyond this limit."
+        },
+        "codeCount.showImports": {
+          "type": "boolean",
+          "default": false,
+          "description": "Also count and show import statements."
+        },
+        "codeCount.importThreshold": {
+          "type": "number",
+          "default": 20,
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Import count threshold. High import counts can indicate excessive dependencies or complexity."
+        },
+        "codeCount.ignoreFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "*-lock.json",
+            "*-lock.yaml",
+            "*.min.js",
+            "*.map",
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "*.svg",
+            "*.webp",
+            "*.ico",
+            "*.mp4",
+            "*.mp3",
+            "*.wav"
+          ],
+          "description": "Array of glob patterns or file names to ignore when counting (e.g., 'package-lock.json', '*.csv')."
+        },
+        "codeCount.paddingStyle": {
+          "type": "string",
+          "enum": [
+            "zero",
+            "exact",
+            "abbreviated"
+          ],
+          "enumDescriptions": [
+            "Zero padding with exact numbers. (e.g., 000128)",
+            "Space padding with exact numbers (0). Perfect alignment. (e.g.,    128)",
+            "Space padding with abbreviations (K). (e.g.,   12K)"
+          ],
+          "default": "exact",
+          "description": "Choose the padding and formatting style for line counts in the tree view."
+        },
+        "codeCount.reportShowLinks": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show clickable file links in the generated Markdown report. If disabled, only filenames are shown for a cleaner look."
+        },
+        "codeCount.ignoreBuild": {
+          "type": "boolean",
+          "default": true,
+          "description": "Filter out Build and Cache folders (e.g., .next, dist, out) from view and reports. Toggleable without re-scan."
+        },
+        "codeCount.ignoreVenv": {
+          "type": "boolean",
+          "default": true,
+          "description": "Filter out Dependency and Virtual Environment folders (e.g., node_modules, .venv) from view and reports. Toggleable without re-scan."
+        },
+        "codeCount.ignoreSystem": {
+          "type": "boolean",
+          "default": true,
+          "description": "Filter out System and Meta folders (e.g., .git, .vscode) from view and reports. Toggleable without re-scan."
+        },
+        "codeCount.manualExclusions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "User-defined manual exclusions (persistent across sessions)."
+        },
+        "codeCount.manualInclusions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "User-defined manual inclusion overrides (persistent across sessions)."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "code-count-strategist",
+          "title": "Code Count",
+          "icon": "$(symbol-number)"
+        }
+      ]
+    },
+    "views": {
+      "code-count-strategist": [
+        {
+          "id": "code-count-strategist-step-a",
+          "name": "STEP A",
+          "when": "workspaceFolders",
+          "icon": "$(new-folder)"
+        },
+        {
+          "id": "code-count-strategist-step-b",
+          "name": "STEP B",
+          "when": "workspaceFolders",
+          "icon": "$(filter)"
+        },
+        {
+          "id": "code-count-strategist-step-c",
+          "name": "STEP C",
+          "when": "workspaceFolders",
+          "icon": "$(checklist)"
+        },
+        {
+          "id": "code-count-strategist-step-d",
+          "name": "STEP D",
+          "when": "workspaceFolders",
+          "icon": "$(graph)"
+        }
+      ],
+      "explorer": [
+        {
+          "id": "codeCountView",
+          "name": "📊 LOC CODE COUNTER",
+          "icon": "$(numbers)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "codeCount.manageExtensions",
+          "when": "view == codeCountView && workspaceFolderCount > 0 && codeCount.hasResults",
+          "group": "navigation@2"
+        },
+        {
+          "command": "codeCount.refresh",
+          "when": "view == codeCountView && workspaceFolderCount > 0 && codeCount.hasResults",
+          "group": "navigation@3"
+        },
+        {
+          "command": "codeCount.generateAudit",
+          "when": "view == codeCountView && workspaceFolderCount > 0 && codeCount.hasResults",
+          "group": "navigation@4"
+        },
+        {
+          "command": "codeCount.openQuickSettings",
+          "when": "view == codeCountView && workspaceFolderCount > 0 && codeCount.hasResults",
+          "group": "navigation@6"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "codeCount.ignoreItem",
+          "when": "view == codeCountView && viewItem == file || view == codeCountView && viewItem == folder",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "gen:profiles": "node scripts/gen-profiles.js",
+    "compile": "node scripts/gen-profiles.js && esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "watch": "node scripts/gen-profiles.js && esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --watch"
+  },
+  "devDependencies": {
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^25.3.0",
+    "@types/vscode": "^1.75.0",
+    "@vercel/ncc": "^0.38.4",
+    "@vscode/vsce": "^3.7.1",
+    "esbuild": "^0.27.3"
+  },
+  "dependencies": {
+    "ignore": "^7.0.5",
+    "minimatch": "^10.2.2"
+  }
+}
