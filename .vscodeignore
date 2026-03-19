@@ -1,0 +1,13 @@
+node_modules/
+.vscode/
+.vscodeignore
+.gitignore
+vsc-extension-quickstart.md
+README.md
+CHANGELOG.md
+src/
+brain/
+.gemini/
+tsconfig.json
+**/*.map
+**/*.ts

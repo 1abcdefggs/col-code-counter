@@ -1,0 +1,10 @@
+{
+  "name": "sample-audit-project",
+  "version": "1.0.0",
+  "description": "Mock project for testing Code Count extension",
+  "main": "src/index.ts",
+  "dependencies": {
+    "react": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}
